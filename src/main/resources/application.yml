@@ -1,1 +1,24 @@
-spring.application.name=kafka-cloud-dev
+spring:
+  config:
+#    import: "optional:configserver:"
+    import: "optional:configserver:http://localhost:9900"
+  application:
+    name: kafka-cloud-dev
+  cloud:
+    function:
+      definition:
+      #uppercase; # basicConsumer; basicProducer
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        basicProducer-out-0:
+          destination: cloud-stream
+          content-type: application/json
+        basicConsumer-in-0:
+          destination: cloud-stream
+        uppercase-out-0:
+          destination: cloud-stream
+        uppercase-in-0:
+            destination: cloud-stream

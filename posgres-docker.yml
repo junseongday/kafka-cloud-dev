@@ -1,4 +1,15 @@
-FROM ubuntu:latest
-LABEL authors="junseong"
+FROM postgres:14.6
 
-ENTRYPOINT ["top", "-b"]
+RUN apt-get update && \
+apt-get install -y locales && \
+sed -i '/ko_KR.UTF-8/s/^# //g' /etc/locale.gen && \
+locale-gen && \
+update-locale LANG=ko_KR.UTF-8
+
+ENV LANG ko_KR.UTF-8
+ENV LC_ALL ko_KR.UTF-8
+  
+  # PostgreSQL 초기화 스크립트 추가 (필요한 경우)
+  # COPY init.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 5432
