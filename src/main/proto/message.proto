@@ -1,0 +1,11 @@
+syntax = "proto3";
+package itjs.global.v1.account.status;
+
+option java_package = "itjs.global.v1.account.status";
+option java_multiple_files = true;
+
+message AccountEvent {
+  string id = 1;
+  string name = 2;
+  double balance = 3;
+}

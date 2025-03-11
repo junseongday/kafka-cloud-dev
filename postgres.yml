@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  db:
+    container_name: pg_container
+    #  image: postgres:14.6
+    build:
+      context: .
+      dockerfile: postgre-dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: korlos
+      LANG: ko_KR.utf8
+      LC_ALL: ko_KR.utf8
+    ports:
+      - "54321:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # volume to ensure data is not lost after containers stop.
+      #- ./postgres-data:/var/lib/postgresql/data:Z
+      - ./postgres/init:/docker-entrypoint-initdb.d # each microservice can copy its init files here to create database.
+    command: ["postgres", "-c", "wal_level=logical"]
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - ./postgres/servers.json:/pgadmin4/servers.json
+volumes:
+  postgres-data: # Named volumes is a workaround required for permission issue fix on postgres-data volume. See https://stackoverflow.com/a/74652697
