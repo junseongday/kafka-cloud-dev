@@ -7,7 +7,11 @@ spring:
   cloud:
     function:
       definition:
-      #uppercase; # basicConsumer; basicProducer
+      #uppercase;
+#       basicConsumer;
+#       basicProducer;
+#      firstInput|secondInput;
+       batch;batchConsumer;
     stream:
       kafka:
         binder:
@@ -18,7 +22,20 @@ spring:
           content-type: application/json
         basicConsumer-in-0:
           destination: cloud-stream
+          contentType: application/octet-stream
+          consumer:
+            batch-mode: true
         uppercase-out-0:
           destination: cloud-stream
         uppercase-in-0:
             destination: cloud-stream
+        firstInput|secondInput-in-0:
+          destination: cloud-stream
+        batch-out-0:
+          destination: cloud-stream
+          contentType: application/json
+        batchConsumer-in-0:
+          destination: cloud-stream
+          contentType: application/json
+          consumer:
+            batch-mode: true
