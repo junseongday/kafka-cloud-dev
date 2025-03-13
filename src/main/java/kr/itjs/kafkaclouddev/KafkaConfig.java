@@ -103,6 +103,14 @@ public class KafkaConfig {
 //    };
 //  }
 //
+
+//  @Bean
+//  public Function<String, String> basicProducer() {
+//    return p -> {
+//      return p;
+//    };
+//  }
+
   @Bean
   public Consumer<Message<List<Member>>> basicConsumer() {
 

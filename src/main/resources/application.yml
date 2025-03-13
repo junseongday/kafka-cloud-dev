@@ -7,15 +7,25 @@ spring:
   cloud:
     function:
       definition:
+#        basicProducer;
       #uppercase;
 #       basicConsumer;
-#       basicProducer;
 #      firstInput|secondInput;
-       batch;batchConsumer;
+#       batch;batchConsumer;
+        protoConsumer;
+#        protoProducer;
+#        mdms.local.180.v2.account
     stream:
       kafka:
         binder:
           brokers: localhost:9092
+#          configuration:
+#            schema.registry.url: http://localhost:8081
+#            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+#            value.serializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer
+#            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#            value.deserializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer
+#            specific.protobuf.value.type: itjs.global.v1.account.status.AccountEvent
       bindings:
         basicProducer-out-0:
           destination: cloud-stream
@@ -28,7 +38,7 @@ spring:
         uppercase-out-0:
           destination: cloud-stream
         uppercase-in-0:
-            destination: cloud-stream
+          destination: cloud-stream
         firstInput|secondInput-in-0:
           destination: cloud-stream
         batch-out-0:
@@ -39,3 +49,10 @@ spring:
           contentType: application/json
           consumer:
             batch-mode: true
+        protoConsumer-in-0:
+          destination: mdms.local.180.v2.account
+          group: ${spring.application.name}-group
+          contentType: application/octet-stream
+        protoProducer-out-0:
+          destination: mdms.local.180.v2.account
+          contentType: application/octet-stream
